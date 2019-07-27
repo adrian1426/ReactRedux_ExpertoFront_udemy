@@ -12,7 +12,7 @@ class Header extends Component{
         const {nuevoUsuario}=this.props;
         return(
             <header>
-                <h2 style={styles.inline}>Usuarios</h2>
+                <h2 style={styles.inline}>Lista de usuarios</h2>
                 <button style={styles.inline} onClick={nuevoUsuario}>Nuevo Usuario</button>
             </header>
         );
