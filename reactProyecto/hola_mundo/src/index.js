@@ -1,16 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Provider} from 'react-redux';
+import {createStore} from 'redux';
+import reducer from './reducers';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {Router} from 'react-router-dom';
-// import createHistory from 'history/createBrowserHistory';
 
-const createHistory = require('history').createBrowserHistory;
-const history= createHistory();
+const store= createStore(reducer);
 
 ReactDOM.render(
-<Router history={history}>
-<App />
-</Router>, document.getElementById('root'));
+<Provider store={store}><App /></Provider>
+, document.getElementById('root'));
 serviceWorker.unregister();

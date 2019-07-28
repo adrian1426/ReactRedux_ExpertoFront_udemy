@@ -1,28 +1,48 @@
 import React,{Component} from 'react';
 import './App.css';
-import {Route} from 'react-router-dom';
-import Loadable from 'react-loadable';
-// import Prueba from './components/Prueba';
-// import Invoices from './components/Invoices';
-
-const Loader = x => Loadable({
-    loading:() => "Cargando...",
-    loader: x
-});
-
-const Prueba= Loader(() => import('./components/Prueba'));
-const Invoices= Loader(() => import('./components/Invoices'));
-
+import {connect} from 'react-redux';
+import { incrementar,decrementar,setear } from './reducers/index';
 class App extends Component {
 
+    handleChange = (e) =>{
+        const {name,value}=e.target;
+        this.setState({[name]:value});
+    }
+    handleSetear = (e) =>{
+        const {setear}=this.props;
+        const {valor} = this.state;
+        setear(Number(valor));
+    }
+
   render(){
+      const {incrementar,decrementar,valor}=this.props;
+      console.log(this.state);
     return (
       <div className="App">
-      <Route exact path="/" component={Prueba}/>
-      <Route exact path="/Invoices" component={Invoices}/>
+      <p>valor: {valor}</p>
+      <br/>
+      <button onClick={incrementar}>Incrementar</button>
+      <br/>
+      <button onClick={decrementar}>Decrementar</button>
+      <br/>
+      <input name="valor" onChange={this.handleChange}/>
+      <button onClick={this.handleSetear}>Setear</button>
       </div>
     );
   }
 }
 
-export default App;
+const mapStateToProps = state =>{
+    console.log({state});
+    return{
+        valor:state
+    }
+}
+
+const mapDispatchToProps = dispatch=>({
+    incrementar: () => dispatch(incrementar()),
+    decrementar: () => dispatch(decrementar()),
+    setear: payload => dispatch(setear(payload))
+});
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
