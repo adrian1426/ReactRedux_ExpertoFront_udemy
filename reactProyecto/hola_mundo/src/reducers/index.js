@@ -23,7 +23,6 @@ const initialState=0;
 
 //Reducer
 export default function(state=initialState,action){
-    console.log(action);
     switch (action.type) {
         case INCREMENTAR:
             return state + 1;
