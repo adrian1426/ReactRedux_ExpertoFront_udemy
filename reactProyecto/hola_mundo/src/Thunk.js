@@ -1,27 +1,34 @@
-//creador de types
-const makeType = modulo => action =>`${modulo}/${action}`;
+//creador de types asincrono
+const makeType = modulo => (action,isAsync) =>{
+    if(isAsync){
+        return {
+            START: `${modulo}/${action}-start`,
+            SUCCESS: `${modulo}/${action}-success`,
+            ERROR: `${modulo}/${action}-error`
+        }
+    }
+    return `${modulo}/${action}`;
+};
 const t= makeType('thunk');
 
 //action types
-const FETCH_START=t("start");
-const FETCH_SUCCESS=t("success");
-const FETCH_ERROR=t("error");
+const FETCH=t("fetch",true);
 // const FETCH_START="thunk/start";
 // const FETCH_SUCCESS="thunk/success";
 // const FETCH_ERROR="thunk/error";
 
 //action creator
 const fetchStart = () =>({
-    type:FETCH_START
+    type:FETCH.START
 });
 
 const fetchSuccess = payload =>({
-    type:FETCH_SUCCESS,
+    type:FETCH.SUCCESS,
     payload
 });
 
 const fetchError = error =>({
-    type:FETCH_ERROR,
+    type:FETCH.ERROR,
     error
 });
 
@@ -41,17 +48,17 @@ const initialState={
 export function reducer (state=initialState,action){
     console.log(action);
     switch (action.type) {
-        case FETCH_START:
+        case FETCH.START:
             return{
                 ...state,
                 fetching:true
             }
-        case FETCH_SUCCESS:
+        case FETCH.SUCCESS:
             return{
                 ...state,
                 data:action.payload
             }
-        case FETCH_ERROR:
+        case FETCH.ERROR:
             return{
                 ...state,
                 error:action.error
