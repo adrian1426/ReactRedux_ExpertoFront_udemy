@@ -1,7 +1,14 @@
+//creador de types
+const makeType = modulo => action =>`${modulo}/${action}`;
+const t= makeType('thunk');
+
 //action types
-const FETCH_START="start";
-const FETCH_SUCCESS="success";
-const FETCH_ERROR="error";
+const FETCH_START=t("start");
+const FETCH_SUCCESS=t("success");
+const FETCH_ERROR=t("error");
+// const FETCH_START="thunk/start";
+// const FETCH_SUCCESS="thunk/success";
+// const FETCH_ERROR="thunk/error";
 
 //action creator
 const fetchStart = () =>({
@@ -20,9 +27,13 @@ const fetchError = error =>({
 
 const url="https://jsonplaceholder.typicode.com/users";
 
+//forma ideal del estado
 const initialState={
-    data:[],
+    data:{
+        1:{name:'adrian'}
+    },
     fetching:false,
+    fetched:false,
     error:null
 }
 
