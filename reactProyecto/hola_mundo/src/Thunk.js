@@ -9,6 +9,28 @@ const makeType = modulo => (action,isAsync) =>{
     }
     return `${modulo}/${action}`;
 };
+
+function mac(type,...argNames){
+    return function(...args){
+        const action = {type};
+        argNames.forEach((arg, index)=>{
+          action[argNames[index]] = args[index]
+        });
+
+        return action;
+    }
+}
+
+//action creators asicronos
+function asynMac(types){
+    return{
+        error:mac(`${types.ERROR}`,'error'),
+        start: mac(`${types.START}`),
+        success:mac(`${types.SUCCESS}`,'payload')
+
+    }
+}
+
 const t= makeType('thunk');
 
 //action types
@@ -18,19 +40,11 @@ const FETCH=t("fetch",true);
 // const FETCH_ERROR="thunk/error";
 
 //action creator
-const fetchStart = () =>({
-    type:FETCH.START
-});
+const fetchStart = mac(FETCH.START);
 
-const fetchSuccess = payload =>({
-    type:FETCH.SUCCESS,
-    payload
-});
+const fetchSuccess = mac(FETCH.SUCCESS,'payload');
 
-const fetchError = error =>({
-    type:FETCH.ERROR,
-    error
-});
+const fetchError = mac(FETCH.ERROR,'error');
 
 const url="https://jsonplaceholder.typicode.com/users";
 
